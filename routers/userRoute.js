@@ -5,7 +5,6 @@ const { authorize } = require('../middleware/aurthorize')
 const userController = require(`../controller/userController`);
 
 
-console.log(authorize)
 
 router.get('/list', authorize, userController.getAlluser)
 router.get('/list/:id', authorize, userController.getuserbyId)

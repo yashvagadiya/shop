@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const db = require(`../models`);
 
-exports.authorize =  (req, res, next) => {
+exports.authorize = async (req, res, next) => {
     try {
         const authorization = req.headers['authorization'];
 
@@ -15,15 +15,19 @@ exports.authorize =  (req, res, next) => {
 
         const token = splitAuthorization[1];
 
+
+
         if (!token) {
             const error = new Error("Authorization token invalid")
             error.statusCode = 422
             throw error
         }
+
+
         let decode
 
         try {
-            decode =  jwt.verify(token, "yashvagadiya")
+            decode = jwt.verify(token, process.env.SECRET_KEY)
         } catch (error) {
             const err = new Error('Authorization token invalid')
             err.statusCode = 422
@@ -32,13 +36,13 @@ exports.authorize =  (req, res, next) => {
 
         const { id } = decode
 
-        const user =  db.user.findOne({
-                where: {
-                        id: id
-                    }
-                });  
+        const user = db.user.findOne({
+            where: {
+                id: id
+            }
+        });
 
-                        // db.user.findoneById(id).lean()
+        // db.user.findoneById(id).lean()
 
         req.user = user
 
