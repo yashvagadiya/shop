@@ -23,6 +23,9 @@ module.exports = (sequelize, Sequelize) => {
         },
         discription: {
             type: Sequelize.STRING
+        },
+        login_token: {
+            type: Sequelize.STRING
         }
     });
 

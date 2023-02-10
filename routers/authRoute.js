@@ -5,7 +5,7 @@ const authController = require(`../controller/authcontroller`);
 
 router.get('/list',authController.getAlllogin)
 router.post('/login',authController.login)
-// router.post('/sinup',authController.sinup)
+router.post('/signup',authController.signup)
 
 
 

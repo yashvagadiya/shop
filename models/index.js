@@ -43,11 +43,7 @@ files.forEach(function (file) {
             db[name].associate();
             role.associate(); 
         }
-        // if(db[name] == 'auth')
-        // {
-        //     db[name].associate();
-        //     role.associate(); 
-        // }
+        
     }
 });
 
