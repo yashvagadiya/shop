@@ -39,14 +39,13 @@ module.exports.login = async (request, response) => {
 
         bcrypt.compare(loginData.password, existemail.dataValues.password, function (err, isPasswordMatch) {
             if (isPasswordMatch == true) {
+                // const distroytoken = db.user.update({
+                //     login_token: null
+                // }, { where: { email: loginData.email } });
 
-                const tokandestroy = db.sequelize.query(`DELETE login_token FROM user WHERE email = `+ loginData.email );
-                console.log(tokandestroy);
-                // const oldToken = existemail.login_token === null
-                // existemail.save(oldToken);
-                //  console.log(oldToken)
-                // // // jwt.destroy(oldToken)
-                // oldToken
+                const distroytoken = db.sequelize.query(`UPDATE user SET login_token = NULL `);
+                
+
 
                 const payload = {
                     id: existemail.id,
@@ -55,8 +54,8 @@ module.exports.login = async (request, response) => {
                 const token = jwt.sign(payload, process.env.SECRET_KEY)//, { expiresIn: "30s" })
 
                 //tokan save in tabal
-                // existemail.login_token = token
-                // existemail.save()
+                existemail.login_token = token
+                existemail.save()
                 //end tokan save in tabal
 
                 const details = {

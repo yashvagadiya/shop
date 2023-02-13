@@ -1,9 +1,25 @@
 const jwt = require('jsonwebtoken');
 const db = require(`../models`);
 
+// module.exports.login = async (request, response) => {
+
+//         const loginData = request.body;
+//         const oldetoken =  await db.sequelize.query(`SELECT login_token FROM user WHERE`+ loginData.email)
+// }
 exports.authorize = async (req, res, next) => {
     try {
         const authorization = req.headers['authorization'];
+        
+        // const loginData = request.body;
+        // const oldetoken =  await db.sequelize.query(`SELECT login_token FROM user WHERE`+ loginData.email)
+
+
+        // if (authorization !== oldetoken){
+        //     const error = new Error("Authorization token invalid")
+        //     error.statusCode = 422
+        //     throw error
+        // }
+        
 
         if (!authorization) {
             const error = new Error("Authorization not found")
@@ -36,7 +52,7 @@ exports.authorize = async (req, res, next) => {
 
         const { id } = decode
 
-        const user = db.user.findOne({
+        const user =await db.user.findOne({
             where: {
                 id: id
             }
