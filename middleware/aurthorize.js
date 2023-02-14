@@ -1,24 +1,25 @@
 const jwt = require('jsonwebtoken');
 const db = require(`../models`);
 
-// module.exports.login = async (request, response) => {
 
-//         const loginData = request.body;
-//         const oldetoken =  await db.sequelize.query(`SELECT login_token FROM user WHERE`+ loginData.email)
-// }
 exports.authorize = async (req, res, next) => {
     try {
         const authorization = req.headers['authorization'];
         
-        // const loginData = request.body;
-        // const oldetoken =  await db.sequelize.query(`SELECT login_token FROM user WHERE`+ loginData.email)
+      
+        const [oldetoken] =  await db.sequelize.query(`SELECT login_token FROM user`)
 
+        let dbtoken ;
+        oldetoken.forEach((token)=>{
+            if(token.login_token !== null){
+                // console.log(token)
+                dbtoken = token.login_token
 
-        // if (authorization !== oldetoken){
-        //     const error = new Error("Authorization token invalid")
-        //     error.statusCode = 422
-        //     throw error
-        // }
+            }
+        })
+        // console.log(oldetoken);
+
+        
         
 
         if (!authorization) {
@@ -30,6 +31,12 @@ exports.authorize = async (req, res, next) => {
         const splitAuthorization = authorization.split(' ');
 
         const token = splitAuthorization[1];
+
+        if (token !== dbtoken){
+            const error = new Error("Authorization token invalid")
+            error.statusCode = 422
+            throw error
+        }
 
 
 
