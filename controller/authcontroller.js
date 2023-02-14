@@ -43,7 +43,7 @@ module.exports.login = async (request, response) => {
                 //     login_token: null
                 // }, { where: { email: loginData.email } });
 
-                const distroytoken = db.sequelize.query(`UPDATE user SET login_token = NULL `);
+                db.sequelize.query(`UPDATE user SET login_token = NULL `);
                 
 
 
@@ -51,7 +51,7 @@ module.exports.login = async (request, response) => {
                     id: existemail.id,
                     email: existemail.email
                 }
-                const token = jwt.sign(payload, process.env.SECRET_KEY)//, { expiresIn: "30s" })
+                const token = jwt.sign(payload, process.env.SECRET_KEY)
 
                 //tokan save in tabal
                 existemail.login_token = token
